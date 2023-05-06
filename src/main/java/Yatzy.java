@@ -1,4 +1,6 @@
+import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
@@ -26,12 +28,6 @@ public class Yatzy {
         else return 0;
     }
 
-    private static boolean isYatzy(int d1, int d2, int d3, int d4, int d5) {
-        Stream<Integer> dice = Stream.of(d1, d2, d3, d4, d5);
-        Map<Integer, Long> results = dice.collect(groupingBy(die -> die, counting()));
-        return results.entrySet().stream().anyMatch(result -> result.getValue() == 5);
-    }
-
     public static int ones(int d1, int d2, int d3, int d4, int d5) {
         Stream<Integer> dice = Stream.of(d1, d2, d3, d4, d5);
         return Math.toIntExact(dice.filter(die -> die.equals(1)).count());
@@ -46,6 +42,7 @@ public class Yatzy {
         Stream<Integer> dice = Stream.of(d1, d2, d3, d4, d5);
         return countDiceOf(dice, 3);
     }
+
     public static int fours(int d1, int d2, int d3, int d4, int d5) {
         Stream<Integer> dice = Stream.of(d1, d2, d3, d4, d5);
         return countDiceOf(dice, 4);
@@ -61,42 +58,25 @@ public class Yatzy {
         return countDiceOf(dice, 6);
     }
 
-    private static int countDiceOf(Stream<Integer> dice, int value) {
-        return Math.toIntExact(dice.filter(die -> die.equals(value)).count() * value);
+    public static int pair(int d1, int d2, int d3, int d4, int d5) {
+        Stream<Integer> dice = Stream.of(d1, d2, d3, d4, d5);
+        Map<Integer, Long> results = dice.collect(groupingBy(die -> die, counting()));
+        OptionalInt max = results.entrySet().stream()
+            .filter(e -> e.getValue() >= 2)
+            .map(Map.Entry::getKey).map(die -> die * 2)
+            .mapToInt(Integer::intValue).max();
+        if (max.isPresent()) return max.getAsInt();
+        else return 0;
     }
 
-    public static int score_pair(int d1, int d2, int d3, int d4, int d5) {
-        int[] counts = new int[6];
-        counts[d1 - 1]++;
-        counts[d2 - 1]++;
-        counts[d3 - 1]++;
-        counts[d4 - 1]++;
-        counts[d5 - 1]++;
-        int at;
-        for (at = 0; at != 6; at++)
-            if (counts[6 - at - 1] >= 2)
-                return (6 - at) * 2;
-        return 0;
-    }
-
-    public static int two_pair(int d1, int d2, int d3, int d4, int d5) {
-        int[] counts = new int[6];
-        counts[d1 - 1]++;
-        counts[d2 - 1]++;
-        counts[d3 - 1]++;
-        counts[d4 - 1]++;
-        counts[d5 - 1]++;
-        int n = 0;
-        int score = 0;
-        for (int i = 0; i < 6; i += 1)
-            if (counts[6 - i - 1] >= 2) {
-                n++;
-                score += (6 - i);
-            }
-        if (n == 2)
-            return score * 2;
-        else
-            return 0;
+    public static int twoPair(int d1, int d2, int d3, int d4, int d5) {
+        Stream<Integer> dice = Stream.of(d1, d2, d3, d4, d5);
+        Map<Integer, Long> results = dice.collect(groupingBy(die -> die, counting()));
+        List<Integer> pairs = results.entrySet().stream()
+            .filter(e -> e.getValue() >= 2)
+            .map(Map.Entry::getKey).map(die -> die * 2).collect(toList());
+        if (pairs.size() == 2) return pairs.stream().mapToInt(Integer::intValue).sum();
+        else return 0;
     }
 
     public static int three_of_a_kind(int d1, int d2, int d3, int d4, int d5) {
@@ -193,6 +173,16 @@ public class Yatzy {
             return _2_at * 2 + _3_at * 3;
         else
             return 0;
+    }
+
+    private static boolean isYatzy(int d1, int d2, int d3, int d4, int d5) {
+        Stream<Integer> dice = Stream.of(d1, d2, d3, d4, d5);
+        Map<Integer, Long> results = dice.collect(groupingBy(die -> die, counting()));
+        return results.entrySet().stream().anyMatch(result -> result.getValue() == 5);
+    }
+
+    private static int countDiceOf(Stream<Integer> dice, int value) {
+        return Math.toIntExact(dice.filter(die -> die.equals(value)).count() * value);
     }
 }
 

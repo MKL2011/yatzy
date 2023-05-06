@@ -67,24 +67,24 @@ public class YatzyTest {
 
     @Test
     public void test_one_pair() {
-        assertEquals(6, Yatzy.score_pair(3, 4, 3, 5, 6));
-        assertEquals(10, Yatzy.score_pair(5, 3, 3, 3, 5));
-        assertEquals(12, Yatzy.score_pair(5, 3, 6, 6, 5));
-        assertEquals(6, Yatzy.score_pair(3, 3, 3, 3, 1));
-        assertEquals(6, Yatzy.score_pair(3, 3, 3, 4, 1));
-        assertEquals(12, Yatzy.score_pair(1, 1, 6, 2, 6));
-        assertEquals(8, Yatzy.score_pair(3, 3, 3, 4, 4));
-        assertEquals(0, Yatzy.score_pair(1, 2, 3, 4, 5));
+        assertEquals(6, Yatzy.pair(3, 4, 3, 5, 6));
+        assertEquals(10, Yatzy.pair(5, 3, 3, 3, 5));
+        assertEquals(12, Yatzy.pair(5, 3, 6, 6, 5));
+        assertEquals(6, Yatzy.pair(3, 3, 3, 3, 1));
+        assertEquals(6, Yatzy.pair(3, 3, 3, 4, 1));
+        assertEquals(12, Yatzy.pair(1, 1, 6, 2, 6));
+        assertEquals(8, Yatzy.pair(3, 3, 3, 4, 4));
+        assertEquals(0, Yatzy.pair(1, 2, 3, 4, 5));
     }
 
     @Test
     public void test_two_pair() {
-        assertEquals(16, Yatzy.two_pair(3, 3, 5, 4, 5));
-        assertEquals(16, Yatzy.two_pair(3, 3, 5, 5, 5));
-        assertEquals(8, Yatzy.two_pair(1, 1, 2, 3, 3));
-        assertEquals(0, Yatzy.two_pair(1, 1, 2, 3, 4));
-        assertEquals(6, Yatzy.two_pair(1, 1, 2, 2, 2));
-        assertEquals(0, Yatzy.two_pair(3, 3, 3, 3, 1));
+        assertEquals(16, Yatzy.twoPair(3, 3, 5, 4, 5));
+        assertEquals(16, Yatzy.twoPair(3, 3, 5, 5, 5));
+        assertEquals(8, Yatzy.twoPair(1, 1, 2, 3, 3));
+        assertEquals(0, Yatzy.twoPair(1, 1, 2, 3, 4));
+        assertEquals(6, Yatzy.twoPair(1, 1, 2, 2, 2));
+        assertEquals(0, Yatzy.twoPair(3, 3, 3, 3, 1));
     }
 
     @Test
