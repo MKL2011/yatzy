@@ -1,7 +1,4 @@
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -14,79 +11,64 @@ public class Yatzy {
     }
 
     public int chance() {
-        return Rule.chanceDices(dices).sum();
+        return Score.chanceScore(Rule.chanceDices(dices));
     }
 
     public int yatzy() {
-        boolean isYatzy = Rule.isYatzy(dices);
-        if (isYatzy) return 50;
-        else return 0;
+        return Score.yatzyScore(Rule.isYatzy(dices));
     }
 
     public int ones() {
-        return Math.toIntExact(Rule.ones(dices));
+        return Score.onesScore(Rule.ones(dices));
     }
 
     public int twos() {
-        return Math.toIntExact(Rule.twos(dices) * 2);
+        return Score.twosScore(Rule.twos(dices));
     }
 
     public int threes() {
-        return Math.toIntExact(Rule.threes(dices) * 3);
+        return Score.threesScore(Rule.threes(dices));
     }
 
     public int fours() {
-        return Math.toIntExact(Rule.fours(dices) * 4);
+        return Score.foursScore(Rule.fours(dices));
     }
 
     public int fives() {
-        return Math.toIntExact(Rule.fives(dices) * 5);
+        return Score.fivesScore(Rule.fives(dices));
     }
 
     public int sixes() {
-        return Math.toIntExact(Rule.sixes(dices) * 6);
+        return Score.sixesScore(Rule.sixes(dices));
     }
 
     public int pair() {
-        Optional<Integer> maxPair = Rule.pair(dices);
-        return maxPair.map(max -> max * 2).orElse(0);
+        return Score.pairScore(Rule.pair(dices));
     }
 
     public int twoPair() {
-        Stream<Integer> twoPair = Rule.twoPair(dices);
-        return twoPair.mapToInt(entry -> entry * 2).sum();
+        return Score.twoPairScore(Rule.twoPair(dices));
     }
 
     public int threeOfAKind() {
-        Integer threeOfAKindMap = Rule.threeOfAKind(dices);
-        return threeOfAKindMap * 3;
+        return Score.threeOfAKindScore(Rule.threeOfAKind(dices));
     }
 
     public int fourOfAKind() {
-        Integer fourOfAKindMap = Rule.fourOfAKind(dices);
-        return fourOfAKindMap * 4;
+        return Score.fourOfAKindScore(Rule.fourOfAKind(dices));
     }
 
     public int smallStraight() {
-        if (Rule.isSmallStraight(dices)) return 15;
-        else return 0;
+        return Score.smallStraightScore(Rule.isSmallStraight(dices));
     }
 
     public int largeStraight() {
-        if (Rule.isLargeStraight(dices)) return 20;
-        else return 0;
+        return Score.largeStraightScore(Rule.isLargeStraight(dices));
     }
 
     public int fullHouse() {
-        if (Rule.isFullHouse(dices)) return scoreFullHouse(dices);
+        if (Rule.isFullHouse(dices)) return Score.fullHouseScore(dices);
         else return 0;
-    }
-
-    private static int scoreFullHouse(List<Integer> dices) {
-        Map<Integer, Long> results = Rule.groupDicesByValue(dices);
-        return results.entrySet().stream()
-            .map(e -> e.getKey() * e.getValue())
-            .mapToInt(Long::intValue).sum();
     }
 }
 

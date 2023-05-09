@@ -19,32 +19,28 @@ public class Rule {
         return results.entrySet().stream().anyMatch(result -> result.getValue() == 5);
     }
 
-    public static long ones(List<Integer> dices) {
+    public static Stream<Integer> ones(List<Integer> dices) {
         return Rule.countDicesOfValue(dices, 1);
     }
 
-    public static long twos(List<Integer> dices) {
+    public static Stream<Integer> twos(List<Integer> dices) {
         return Rule.countDicesOfValue(dices, 2);
     }
 
-    public static long threes(List<Integer> dices) {
+    public static Stream<Integer> threes(List<Integer> dices) {
         return Rule.countDicesOfValue(dices, 3);
     }
 
-    public static long fours(List<Integer> dices) {
+    public static Stream<Integer> fours(List<Integer> dices) {
         return Rule.countDicesOfValue(dices, 4);
     }
 
-    public static long fives(List<Integer> dices) {
+    public static Stream<Integer> fives(List<Integer> dices) {
         return Rule.countDicesOfValue(dices, 5);
     }
 
-    public static long sixes(List<Integer> dices) {
+    public static Stream<Integer> sixes(List<Integer> dices) {
         return Rule.countDicesOfValue(dices, 6);
-    }
-
-    public static Map<Integer, Long> groupDicesByValue(List<Integer> dices) {
-        return dices.stream().collect(groupingBy(die -> die, counting()));
     }
 
     public static Integer threeOfAKind(List<Integer> dices) {
@@ -58,9 +54,9 @@ public class Rule {
 
     }
 
-    public static Optional<Integer> pair(List<Integer> dices) {
+    public static int pair(List<Integer> dices) {
         return getPairStream(dices)
-            .max(Comparator.naturalOrder());
+            .max(Comparator.naturalOrder()).orElse(0).intValue();
     }
 
 
@@ -93,12 +89,16 @@ public class Rule {
             .filter(e -> e.getValue() >= frequency);
     }
 
-    private static long countDicesOfValue(List<Integer> dices, int value) {
-        return dices.stream().filter(die -> die.equals(value)).count();
+    private static Stream<Integer> countDicesOfValue(List<Integer> dices, int value) {
+        return dices.stream().filter(die -> die.equals(value));
     }
 
     private static Stream<Integer> getPairStream(List<Integer> dices) {
         return Rule.getDicesWithFrequency(dices, 2)
             .map(Map.Entry::getKey);
+    }
+
+    private static Map<Integer, Long> groupDicesByValue(List<Integer> dices) {
+        return dices.stream().collect(groupingBy(die -> die, counting()));
     }
 }
