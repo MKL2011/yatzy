@@ -1,11 +1,13 @@
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 
 public class YatzyTest {
 
     @Test
-    public void test_chance_scores_sum_of_all_dice() {
+    public void test_chance() {
         assertEquals(15, new Yatzy(2, 3, 4, 5, 1).chance());
         assertEquals(16, new Yatzy(3, 3, 4, 5, 1).chance());
         assertEquals(14, new Yatzy(1, 1, 3, 3, 6).chance());
@@ -13,7 +15,7 @@ public class YatzyTest {
     }
 
     @Test
-    public void test_yatzy_scores_50() {
+    public void test_yatzy() {
         assertEquals(50, new Yatzy(4, 4, 4, 4, 4).yatzy());
         assertEquals(50, new Yatzy(6, 6, 6, 6, 6).yatzy());
         assertEquals(0, new Yatzy(6, 6, 6, 6, 3).yatzy());
